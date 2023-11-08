@@ -3,8 +3,20 @@ title: "Reproducible Documents"
 author: "Marc"
 format: html
 editor: visual
+  markdown:
+    wrap: 72
+    canonical: true
 ---
 
-```{r setup}
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r}
+#code chunk
+```
+
+## This is poorly formatted
+
+-   1
+-   2
