@@ -1,16 +1,10 @@
 ---
 title: "Reproducible Documents"
-author: "Marc the menace mendoza"
+author: "Marc"
 format: html
 editor: visual
 ---
 
-```{r}
-2+2
-```
-
 ```{r setup}
-library(tidyverse)
-library(NHANES)
-nhanes_small <- read_csv(here::here("data/nhanes_small.csv"))
+
 ```
