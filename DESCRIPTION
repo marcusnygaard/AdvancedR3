@@ -7,11 +7,11 @@ Imports:
     fs,
     here,
     knitr,
-    r3,
     readr,
     readxl,
     rmarkdown,
     snakecase,
     stringr,
-    tidyr
+    tidyr,
+    usethis
 Encoding: UTF-8
