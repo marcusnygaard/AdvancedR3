@@ -1,10 +1,10 @@
-TODO: Add more to the title of your project here
+Marcus Nygaards R cubed Project!
 
 # AdvancedR3:
 
 TODO: Give a brief description of what your project is about
 
-This project...
+This project is about learning how to build good-practice reproducible pipelines in R
 
 # Brief description of folder and file contents
 
@@ -12,9 +12,9 @@ TODO: As project evolves, add brief description of what is inside the data, doc 
 
 The following folders contain:
 
-- `data/`:
-- `doc/`:
-- `R/`:
+- `data/`: all data in a csv matrix file
+- `doc/`: documentation and experimental quatro file
+- `R/`: all created functions
 
 # Installing project R package dependencies
 
