@@ -15,8 +15,3 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 #code chunk
 ```
-
-## This is poorly formatted
-
--   1
--   2
