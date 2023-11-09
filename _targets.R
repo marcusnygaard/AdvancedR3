@@ -5,6 +5,8 @@
 
 # Load packages required to define the pipeline:
 library(targets)
+library(tarchetypes)
+library(quarto)
 # library(tarchetypes) # Load other packages as needed.
 
 # Set target options:
@@ -37,7 +39,7 @@ tar_option_set(
 
 # tar_make_clustermq() is an older (pre-{crew}) way to do distributed computing
 # in {targets}, and its configuration for your machine is below.
-options(clustermq.scheduler = "multiprocess")
+#options(clustermq.scheduler = "multiprocess")
 
 # tar_make_future() is an older (pre-{crew}) way to do distributed computing
 # in {targets}, and its configuration for your machine is below.
@@ -61,5 +63,15 @@ list(
   tar_target(
     name = df_stats_by_metabolite,
     command = descriptive_stats(lipidomics)
+  ),
+  tar_target(
+      name = fig_metabolite_distribution,
+      command = plot_distributions(lipidomics)
+  ),
+  tar_quarto(
+      name = quarto_doc,
+      path = "doc/learning.qmd"
   )
 )
+
+

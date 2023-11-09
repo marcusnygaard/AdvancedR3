@@ -1,47 +1,29 @@
 ---
 title: "Reproducible Documents"
-author: "Marc"
+author: "Marcus Langeland Larsen Nygård"
 format: html
-editor: visual
+editor:
   markdown:
     wrap: 72
     canonical: true
 ---
 
 ```{r setup}
+targets::tar_config_set(store = here::here("_targets"))
 library(tidyverse)
-source(here::here("R/functions.R"))
-lipidomics <- read.csv(here::here("data/lipidomics.csv"))
+library(targets)
+lipidomics <- tar_read(lipidomics)
 ```
 
-## Basic statistics
+## Results
 
-```{r basic-stats}
-lipidomics %>%
-  group_by(metabolite) %>%
-  summarise(across(value, list(mean = mean, sd = sd))) %>%
-  mutate(across(where(is.numeric), ~ round(.x, digits = 1)))
+```{r}
+targets::tar_read(df_stats_by_metabolite) %>% 
+  mutate(MeanSD = glue::glue("{value_mean} ({value_sd})")) %>%
+  select(Metabolite = metabolite, `Mean SD` = MeanSD) %>%
+  knitr::kable(caption = "Descriptive statistics of the metabolites.")
 ```
 
 ```{r}
-metabolite_distribution_plot <- ggplot(lipidomics, aes(x = value)) +
-  geom_histogram() +
-  facet_wrap(vars(metabolite), scales = "free")
-metabolite_distribution_plot
-```
-
-```{r}
-## This should be in the R/functions.R file.
-#' Plot for basic distribution of metabolite data.
-#'
-#' @param data The lipidomics dataset.
-#'
-#' @return A ggplot2 graph.
-#'
-plot_distributions <- function(data) {
-  data %>% 
-    ggplot2::ggplot(ggplot2::aes(x = value)) +
-    ggplot2::geom_histogram() +
-    ggplot2::facet_wrap(ggplot2::vars(metabolite), scales = "free")
-}
+tar_read(fig_metabolite_distribution)
 ```
