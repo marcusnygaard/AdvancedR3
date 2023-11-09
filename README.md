@@ -1,5 +1,10 @@
 Marcus Nygaards R cubed Project!
 
+#my git token:
+
+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
+
+
 # AdvancedR3:
 
 TODO: Give a brief description of what your project is about
