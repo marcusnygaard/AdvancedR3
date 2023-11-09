@@ -20,7 +20,7 @@ lipidomics <- tar_read(lipidomics)
 ## Results
 
 ```{r}
-targets::tar_read(df_stats_by_metabolite) %>% 
+targets::tar_read(df_stats_by_metabolite) %>%
   mutate(MeanSD = glue::glue("{value_mean} ({value_sd})")) %>%
   select(Metabolite = metabolite, `Mean SD` = MeanSD) %>%
   knitr::kable(caption = "Descriptive statistics of the metabolites.")
@@ -48,4 +48,18 @@ lipidomics_wide <- lipidomics %>%
     names_prefix = "metabolite_"
   )
 lipidomics_wide
+```
+
+```{r}
+column_values_to_snake_case <- function(data) {
+  data %>%
+    dplyr::mutate(metabolite = snakecase::to_snake_case(metabolite))
+}
+lipidomics %>%
+  column_values_to_snake_case()
+```
+
+```{r}
+lipidomics %>%
+  column_values_to_snake_case(metabolite)
 ```
