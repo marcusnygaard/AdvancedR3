@@ -66,3 +66,29 @@ create_recipe_spec <- function(data, metabolite_variable) {
     recipes::update_role(class, new_role = "outcome") %>%
     recipes::step_normalize(tidyselect::starts_with("metabolite_"))
 }
+
+
+#' Create a workflow object of the model and transformations
+#'
+#' @param model_specs Model spesifications
+#' @param recipie_specs Recipie spesifications
+#'
+#' @return A workflow object
+#'
+create_model_workflow <- function(model_specs, recipie_specs) {
+  workflows::workflow() %>%
+    workflows::add_model(model_specs) %>%
+    workflows::add_recipe(recipie_specs)
+}
+
+#' Create a tidy output of the model results
+#'
+#' @param workflow_fitted_model The model workflow that has been fitted
+#'
+#' @return A dataframe
+#'
+tidy_model_output <- function(workflow_fitted_model) {
+  workflow_fitted_model %>%
+    workflows::extract_fit_parsnip() %>%
+    broom::tidy(exponentiate = TRUE)
+}
