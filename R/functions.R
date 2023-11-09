@@ -66,5 +66,3 @@ create_recipe_spec <- function(data, metabolite_variable) {
     recipes::update_role(class, new_role = "outcome") %>%
     recipes::step_normalize(tidyselect::starts_with("metabolite_"))
 }
-
-

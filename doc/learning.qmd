@@ -66,15 +66,19 @@ lipidomics %>%
 
 ```{r}
 recipe(class ~ metabolite_lipid_ch_3_1 + age + gender,
-       data = lipidomics_wide)
+  data = lipidomics_wide
+)
 ```
 
 ```{r}
 recipe(lipidomics_wide) %>%
-    update_role(metabolite_lipid_ch_3_1, age, gender, new_role = "predictor") %>% update_role(class, new_role = "outcome") %>%
-    step_normalize(starts_with("metabolite_"))
+  update_role(metabolite_lipid_ch_3_1, age, gender, new_role = "predictor") %>%
+  update_role(class, new_role = "outcome") %>%
+  step_normalize(starts_with("metabolite_"))
 ```
 
 ```{r}
-
+recipe_specs <- lipidomics_wide %>%
+  create_recipe_spec(metabolite_lipid_ch_3_1)
+recipe_specs
 ```
