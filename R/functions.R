@@ -106,10 +106,10 @@ tidy_model_output <- function(workflow_fitted_model) {
 #' @return A list of data frames.
 #'
 split_by_metabolite <- function(data) {
-    data %>%
-        column_values_to_snake_case(metabolite) %>%
-        dplyr::group_split(metabolite) %>%
-        purrr::map(metabolites_to_wider)
+  data %>%
+    column_values_to_snake_case(metabolite) %>%
+    dplyr::group_split(metabolite) %>%
+    purrr::map(metabolites_to_wider)
 }
 
 #' Generate the results of a model
@@ -119,14 +119,14 @@ split_by_metabolite <- function(data) {
 #' @return A data frame.
 #'
 generate_model_results <- function(data) {
-    create_model_workflow(
-        parsnip::logistic_reg() %>%
-            parsnip::set_engine("glm"),
-        data %>%
-            create_recipe_spec(tidyselect::starts_with("metabolite_"))
-    ) %>%
-        parsnip::fit(data) %>%
-        tidy_model_output()
+  create_model_workflow(
+    parsnip::logistic_reg() %>%
+      parsnip::set_engine("glm"),
+    data %>%
+      create_recipe_spec(tidyselect::starts_with("metabolite_"))
+  ) %>%
+    parsnip::fit(data) %>%
+    tidy_model_output()
 }
 
 #' Add original netabolite names
@@ -136,12 +136,12 @@ generate_model_results <- function(data) {
 #'
 #' @return
 add_original_metabolite_names <- function(model_results, data) {
-    data %>%
-        dplyr::mutate(term = metabolite) %>%
-        column_values_to_snake_case(term) %>%
-        dplyr::mutate(term = stringr::str_c("metabolite_", term)) %>%
-        dplyr::distinct(term, metabolite) %>%
-        dplyr::right_join(model_results, by = "term")
+  data %>%
+    dplyr::mutate(term = metabolite) %>%
+    column_values_to_snake_case(term) %>%
+    dplyr::mutate(term = stringr::str_c("metabolite_", term)) %>%
+    dplyr::distinct(term, metabolite) %>%
+    dplyr::right_join(model_results, by = "term")
 }
 
 #' Calculate the estimates for the model for each metabolite.
@@ -151,13 +151,29 @@ add_original_metabolite_names <- function(model_results, data) {
 #' @return A data frame.
 #'
 calculate_estimates <- function(data) {
-    data %>%
-        column_values_to_snake_case(metabolite) %>%
-        dplyr::group_split(metabolite) %>%
-        purrr::map(metabolites_to_wider) %>%
-        purrr::map(generate_model_results) %>%
-        purrr::list_rbind() %>%
-        dplyr::filter(stringr::str_detect(term, "metabolite_")) %>%
-        add_original_metabolite_names(data)
+  data %>%
+    column_values_to_snake_case(metabolite) %>%
+    dplyr::group_split(metabolite) %>%
+    purrr::map(metabolites_to_wider) %>%
+    purrr::map(generate_model_results) %>%
+    purrr::list_rbind() %>%
+    dplyr::filter(stringr::str_detect(term, "metabolite_")) %>%
+    add_original_metabolite_names(data)
 }
 
+#' Plot the results
+#'
+#' @param results
+#'
+#' @return a ugly forest plot
+plot_estimates <- function(results) {
+  results %>%
+    ggplot2::ggplot(ggplot2::aes(
+      x = estimate,
+      y = metabolite,
+      xmin = estimate - std.error,
+      xmax = estimate + std.error
+    )) +
+    ggplot2::geom_pointrange() +
+    ggplot2::coord_fixed(xlim = c(0, 5))
+}
