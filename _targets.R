@@ -39,7 +39,7 @@ tar_option_set(
 
 # tar_make_clustermq() is an older (pre-{crew}) way to do distributed computing
 # in {targets}, and its configuration for your machine is below.
-#options(clustermq.scheduler = "multiprocess")
+# options(clustermq.scheduler = "multiprocess")
 
 # tar_make_future() is an older (pre-{crew}) way to do distributed computing
 # in {targets}, and its configuration for your machine is below.
@@ -65,13 +65,15 @@ list(
     command = descriptive_stats(lipidomics)
   ),
   tar_target(
-      name = fig_metabolite_distribution,
-      command = plot_distributions(lipidomics)
+    name = fig_metabolite_distribution,
+    command = plot_distributions(lipidomics)
   ),
   tar_quarto(
-      name = quarto_doc,
-      path = "doc/learning.qmd"
+    name = quarto_doc,
+    path = "doc/learning.qmd"
+  ),
+  tar_target(
+    name = df_model_estimates,
+    command = calculate_estimates(lipidomics)
   )
 )
-
-
