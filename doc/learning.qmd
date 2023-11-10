@@ -1,6 +1,13 @@
 ---
-title: "Reproducible Documents"
-author: "Marcus Langeland Larsen Nygård"
+title: "R CUBED ADVANCED COURSE BABY"
+author:
+  - name: Marcus Langeland Larsen Nygård
+    email: marcusn@bmb.sdu.dk
+    affiliations: 
+      - name: University of Southern Denmark
+        address: Denmark
+        city: Denmark
+        postal-code: 5000
 format: html
 editor:
   markdown:
