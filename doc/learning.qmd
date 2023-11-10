@@ -1,5 +1,5 @@
 ---
-title: "R CUBED ADVANCED COURSE BABY"
+title: "R CUBED ADVANCED COURSE BABY test"
 author:
   - name: Marcus Langeland Larsen Nygård
     email: marcusn@bmb.sdu.dk
